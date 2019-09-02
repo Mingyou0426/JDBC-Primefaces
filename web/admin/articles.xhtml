@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+<f:view>
+    <h:head>
+        <title>Articles</title>
+        <script src="../resources/js/primeui-all.js"></script>
+        <script>
+            function onEdit4(id) {
+                window.location = '${pageContext.request.contextPath}/admin/articleedit.xhtml?id='+id;
+            }
+            function editRowData4Articles(val) {
+                let ret = '<input type="button" style="cursor: pointer;" onclick="onEdit4('+val.id+')" value="Edit"/>';
+                return ret;
+            }
+            $( document ).ready(function() {
+                $('#articlesList').puidatatable({
+                    columns: [
+                        {field:'id', headerText: 'Id'},
+                        {field:'name', headerText: 'Name'},
+                        {field:'price', headerText: 'Price'},
+                        {headerText: 'Edit', content: editRowData4Articles}
+                    ],
+                    datasource: function(callback) {
+                        $.ajax({
+                            type: "GET",
+                            url: '${pageContext.request.contextPath}/rest/Articles',
+                            dataType: "json",
+                            context: this,
+                            success: function(response) {
+                                callback.call(this, response);
+                            }
+                        });
+                    }
+                });
+            });
+        </script>
+    </h:head>
+    <h:body>
+       
+        <h:outputLink value="${pageContext.request.contextPath}/login.xhtml">
+            <h:graphicImage library="images" name="logout.png" />
+        </h:outputLink>
+        <ui:include src="../header.xhtml"/>
+
+        <!-- div>
+            <h:outputText value="#{language.getMessage('registration.success-message')}" />
+        </div -->
+        <h3>Articles List</h3>
+
+         <h:form id="form">
+            <div id="articlesList">
+            </div>
+            <!-- p:dataTable id="articlesList" value="#{articlesView.articlesList}" var="articles">
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="Id" />
+                    </f:facet>
+                    <h:outputText value="#{articles.id}" />
+                </p:column>
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="Name" />
+                    </f:facet>
+                    <h:outputText value="#{articles.name}" />
+                </p:column>
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="Price" />
+                    </f:facet>
+                    <h:outputText value="#{articles.price}" />
+                </p:column>
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="Edit" />
+                    </f:facet>
+                    <p:commandButton onclick="" value="Edit"/>
+                </p:column>
+            </p:dataTable -->
+        </h:form>
+    </h:body>
+</f:view>
+</html>

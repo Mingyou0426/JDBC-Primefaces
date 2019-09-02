@@ -1,0 +1,100 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+<f:view>
+    <h:head>
+        <title>Customers</title>
+        <script src="../resources/js/primeui-all.js"></script>
+        <script>
+            function onEdit4(id) {
+                window.location = '${pageContext.request.contextPath}/admin/customeredit.xhtml?id='+id;
+            }
+            function editRowData4Customers(val) {
+                let ret = '<input type="button" style="cursor: pointer;" onclick="onEdit4('+val.id+')" value="Edit"/>';
+                return ret;
+            }
+            $( document ).ready(function() {
+                $('#customersList').puidatatable({
+                    columns: [
+                        {field:'id', headerText: 'Id'},
+                        {field:'name', headerText: 'Name'},
+                        {field:'vatnumber', headerText: 'Vat Number'},
+                        {field:'location', headerText: 'Location'},
+                        {field:'city', headerText: 'City'},
+                        {headerText: 'Edit', content: editRowData4Customers}
+                    ],
+                    datasource: function(callback) {
+                        $.ajax({
+                            type: "GET",
+                            url: '${pageContext.request.contextPath}/rest/Customers',
+                            dataType: "json",
+                            context: this,
+                            success: function(response) {
+                                callback.call(this, response);
+                            }
+                        });
+                    }
+                });
+            });
+        </script>
+    </h:head>
+    <h:body>
+       
+	<h:outputLink value="${pageContext.request.contextPath}/login.xhtml">
+		<h:graphicImage library="images" name="logout.png" />	 
+	</h:outputLink>
+	<ui:include src="../header.xhtml"/>
+	
+	<!-- div>
+		<h:outputText value="#{language.getMessage('registration.success-message')}" />
+	</div -->
+    <h3>Customers List</h3>
+	
+	 <h:form id="form">
+         <div id="customersList">
+         </div>
+            <!-- p:dataTable id="customersList" value="#{customersView.customersList}" var="customers">
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="Id" />
+                    </f:facet>
+                    <h:outputText value="#{customers.id}" />
+                </p:column>
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="Name" />
+                    </f:facet>
+                    <h:outputText value="#{customers.name}" />
+                </p:column>
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="VatNumber" />
+                    </f:facet>
+                    <h:outputText value="#{customers.vatnumber}" />
+                </p:column>
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="Location" />
+                    </f:facet>
+                    <h:outputText value="#{customers.location}" />
+                </p:column>
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="City" />
+                    </f:facet>
+                    <h:outputText value="#{customers.city}" />
+                </p:column>
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="Edit" />
+                    </f:facet>
+                    <p:commandButton onclick="" value="Edit"/>
+                </p:column>
+            </p:dataTable-->
+        </h:form>
+    </h:body>
+</f:view>
+</html>

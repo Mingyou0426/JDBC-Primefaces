@@ -1,0 +1,44 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+<f:view>
+	<h:head>
+		<title>Registration</title>
+		<!--link rel="stylesheet" type="text/css" href="css/tables.css" /-->
+		<h:outputStylesheet library="css" name="login.css" />
+	</h:head>
+	<h:body>
+		<div align="center">
+
+			<p:growl id="growl" sticky="true" showDetail="true"></p:growl>
+
+			<p:panel id="registerPanel" header="Register User" style="width: 30%;">
+				<h:form id="form" action="${request.contextPath}/login" method="POST" styleClass="noBorders">
+					<p:panelGrid columns="2" styleClass="noBorders">
+						<h:outputLabel value="Name" />
+						<p:inputText value="#{registrationView.user.name}"
+									 id="name" required="true"
+									 requiredMessage="Name is required"
+									 validatorMessage="Name should be of length from 5 to 15 chars" />
+						<h:outputLabel value="User Name" />
+						<p:inputText value="#{registrationView.user.username}"
+									 id="username" required="true"
+									 requiredMessage="User Name is required"
+									 validatorMessage="User Name should be of length from 5 to 15 chars" />
+						<h:outputLabel value="Password" />
+						<p:password value="#{registrationView.user.password}"
+									id="password" required="true"
+									requiredMessage="Password"
+									validatorMessage="Password should be of length from 5 to 15 chars" />
+						<p:commandButton value="Register" actionListener="#{registrationView.userRegistration}" action="login" ajax="false"></p:commandButton>
+						<p:button value="Back" outcome="login" ></p:button>
+					</p:panelGrid>
+				</h:form>
+			</p:panel>
+		</div>
+	</h:body>
+</f:view>
+</html>
